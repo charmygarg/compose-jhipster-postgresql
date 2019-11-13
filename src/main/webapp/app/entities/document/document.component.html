@@ -1,0 +1,74 @@
+<div>
+    <h2 id="page-heading">
+        <span>Documents</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-document" [routerLink]="['/document/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Document
+            </span>
+        </button>
+    </h2>
+    <-alert-error></-alert-error>
+    <-alert></-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="documents?.length === 0">
+        <span>No documents found</span>
+    </div>
+    <div class="table-responsive" *ngIf="documents?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Title</span></th>
+            <th scope="col" ><span>Size</span></th>
+            <th scope="col" ><span>Mime Type</span></th>
+            <th scope="col" ><span>Content</span></th>
+            <th scope="col" ><span>Car</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let document of documents ;trackBy: trackId">
+                <td><a [routerLink]="['/document', document.id, 'view' ]">{{document.id}}</a></td>
+                <td>{{document.title}}</td>
+                <td>{{document.size}}</td>
+                <td>{{document.mimeType}}</td>
+                <td>
+                    <div *ngIf="document.content">
+                        <a [routerLink]="['/content', document.content?.id, 'view' ]" >{{document.content?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="document.car">
+                        <a [routerLink]="['/car', document.car?.id, 'view' ]" >{{document.car?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/document', document.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/document', document.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/document', { outlets: { popup: document.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
